@@ -50,7 +50,8 @@ def call(body, sshName, webRoot, fallbackRecipient, buildImage = 'maven:3-jdk-11
 			])
 
 			node('docker') {
-				def workspace
+				def workspace = pwd()
+				echo "Before stage: ${workspace}"
 				
 				def slaveHome = "${env.SLAVE_HOME}"
 				def slaveUid = "${env.SLAVE_USER_ID}"
@@ -59,6 +60,7 @@ def call(body, sshName, webRoot, fallbackRecipient, buildImage = 'maven:3-jdk-11
 				stage ('Prepare') {
 					deleteDir()
 					workspace = pwd()
+					echo "In stage: ${workspace}"
 					sh "mkdir -p $slaveHome/.m2"
 				}
 				
