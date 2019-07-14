@@ -1,0 +1,1 @@
+echo 'No actions defined for Build In Container stage'
