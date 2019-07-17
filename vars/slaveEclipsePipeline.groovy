@@ -1,4 +1,4 @@
-def call(body, sshName, webRoot, fallbackRecipient, buildImage = 'maven:3-jdk-11', buildLimitTime = 30, buildLimitRam = '4G', buildLimitHdd = '20G') {
+def call(body, sshName, webRoot, fallbackRecipient, buildImage = 'maven:3.6.0-jdk-11', buildLimitTime = 30, buildLimitRam = '4G', buildLimitHdd = '20G') {
 
 	// mandatory framework stuff
 	def config = [:]
