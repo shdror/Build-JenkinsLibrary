@@ -1,1 +1,0 @@
-echo 'No actions defined for Archive stage'

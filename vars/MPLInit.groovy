@@ -1,8 +1,8 @@
 def call() {
-    library('mpl@release')
+    library('mpl@master')
 
     MPLEnforce([])
 
     MPLModulesPath('tools/mdsd/devops/pipeline/stages')
-    MPLModulesPath('tools/mdsd/devops/pipeline/impl/generic')
+    MPLModulesPath('tools/mdsd/devops/pipeline/stages/impl/generic')
 }
