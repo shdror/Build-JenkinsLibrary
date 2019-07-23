@@ -11,7 +11,7 @@ def call(body) {
         buildLimitTime: 30,
         buildLimitRAM: '4G',
         buildLimitHDD: '20G',
-        deployRootDir: '/home/deploy/html'
+        deployRootDir: '/home/deploy/html',
         deploySSHName: 'web'
     ])
 }

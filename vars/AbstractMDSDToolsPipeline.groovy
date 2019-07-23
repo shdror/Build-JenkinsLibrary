@@ -5,14 +5,14 @@
  */
 def call(body, defaults  = [:], overrides = [:]) {
   def cfgId = extendConfiguration([
-    skipDeploy: "$BRANCH_NAME" != 'master'
-    deploySubDir: "$BRANCH_NAME" == 'master' ? 'nightly': "branches/$BRANCH_NAME"
-    deployProjectDir: env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1').toLowerCase()
+    skipDeploy: "$BRANCH_NAME" != 'master',
+    deploySubDir: "$BRANCH_NAME" == 'master' ? 'nightly': "branches/$BRANCH_NAME",
+    deployProjectDir: scm.userRemoteConfigs[0].url.replaceFirst(/^.*\/([^\/]+?).git$/, '$1').toLowerCase()
   ] + defaults, [    
-    deployRelease: param.Release
-    deployReleaseVersion: param.ReleaseVersion
+    deployRelease: params.Release,
+    deployReleaseVersion: params.ReleaseVersion
   ] + overrides, body) 
-  
+
   def config = updateConfiguration()
   
   def modules = ['Prepare', 'Checkout', 'Build', 'Archive', 'Quality Metrics', 'Deploy', 'Cleanup']
@@ -49,8 +49,7 @@ def call(body, defaults  = [:], overrides = [:]) {
             workspacePath: pwd(),
             isMasterBranch: "$BRANCH_NAME" == 'master',
             isPullRequest: !(env.CHANGE_TARGET == null),
-            relativeArtifactsDir: config.updateSiteLocation,
-            deployDirectory: config.webserverDir
+            relativeArtifactsDir: config.updateSiteLocation
           ])
           MPLModule()
         }
