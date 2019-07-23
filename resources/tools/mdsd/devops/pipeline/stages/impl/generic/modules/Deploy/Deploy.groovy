@@ -1,2 +1,11 @@
-echo "Deploy to ${CFG.deployProjectDir}/${CFG.deploySubDir}"
-echo "Release deploy script executed in ${CFG.deployRootDir}/${CFG.deployProjectDir}"
+if (CFG.deploySSHName) {
+    MPLModule("SSH Deploy")
+
+    if (CFG.deployRelease) {
+        if (!CFG.deployReleaseVersion) {
+            error 'Release deployment requires a properly set up release version'
+        } else {
+            MPLModule("SSH Release Deploy")
+        }
+    }
+}
