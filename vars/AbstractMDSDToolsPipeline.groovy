@@ -91,15 +91,15 @@ def call(body, defaults  = [:], overrides = [:]) {
           MPLModule()
         }
       }
-      post {
-        always {
-          emailNotification(config.notificationDefaultRecipient, config.skipNotification)
-        }
-        cleanup {
-          script {
-            if (MPLModuleEnabled('Cleanup')) {
-              MPLModule ('Cleanup')
-            }
+    }
+    post {
+      always {
+        emailNotification(config.notificationDefaultRecipient, config.skipNotification)
+      }
+      cleanup {
+        script {
+          if (MPLModuleEnabled('Cleanup')) {
+            MPLModule ('Cleanup')
           }
         }
       }
