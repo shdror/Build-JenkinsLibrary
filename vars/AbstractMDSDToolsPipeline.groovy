@@ -56,7 +56,8 @@ def call(body, defaults  = [:], overrides = [:]) {
             workspacePath: pwd(),
             isMasterBranch: "$BRANCH_NAME" == 'master',
             isPullRequest: !(env.CHANGE_TARGET == null),
-            relativeArtifactsDir: config.updateSiteLocation
+            relativeArtifactsDir: config.relativeArtifactsDir ? config.relativeArtifactsDir : config.updateSiteLocation ?
+              config.updateSiteLocation : error('No artifacts directory specified')
           ])
           MPLModule()
         }
