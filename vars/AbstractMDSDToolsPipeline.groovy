@@ -1,34 +1,25 @@
-import com.griddynamics.devops.mpl.Helper
-import com.griddynamics.devops.mpl.MPLException
-
 /**
  * Abstract MDSDTools Pipeline
  * Defines pipeline stages of MDSD.tools Build process
  * Relies on concrete Pipeline to provide agent configuration
  */
 def call(body, defaults  = [:], overrides = [:]) {
-  def config = [
-    modules: [
-      Prepare: [:],
-      Checkout: [:],
-      Build: [:],
-      Archive: [:],
-      "Quality Metrics": [:],
-      Deploy: [:],
-      Cleanup: [:]
-    ]
-  ] + defaults
+  def cfgId = extendConfiguration([
+    skipDeploy: "$BRANCH_NAME" != 'master'
+  ] + defaults, overrides, body) 
+  def config = updateConfiguration()
+  
+  def modules = ['Prepare', 'Checkout', 'Build', 'Archive', 'Quality Metrics', 'Deploy', 'Cleanup']
+  def moduleConfig = [:]
 
-  if( body in Closure ) {
-    body.resolveStrategy = Closure.DELEGATE_FIRST
-    body.delegate = config
-    body()
-  } else if( body in Map ) {
-    Helper.mergeMaps(config, body)
-  } else
-    throw new MPLException("Unsupported MPL pipeline configuration type provided: ${body}")
-
-  def cfgId = extendConfiguration(config, overrides) 
+  modules.each {
+    if (!config["skip${it.replaceAll("\\s","")}"]) {
+      moduleConfig.put(it, [:])
+    } else {
+      echo "Stage $it will be skipped."
+    }
+  }
+  extendConfiguration([modules: moduleConfig])
 
   pipeline {
     agent {
@@ -41,7 +32,6 @@ def call(body, defaults  = [:], overrides = [:]) {
     }
 
     options {
-      // define log rotation
       skipDefaultCheckout true
       buildDiscarder(logRotator(artifactDaysToKeepStr: '1', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '100'))
     }
@@ -49,7 +39,8 @@ def call(body, defaults  = [:], overrides = [:]) {
     stages { 
       stage( 'Prepare' ) {
         steps {
-          extendConfiguration([workspacePath: pwd(),
+          extendConfiguration([
+            workspacePath: pwd(),
             isMasterBranch: "$BRANCH_NAME" == 'master',
             isPullRequest: !(env.CHANGE_TARGET == null),
             relativeArtifactsDir: config.updateSiteLocation,

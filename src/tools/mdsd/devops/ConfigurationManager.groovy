@@ -3,6 +3,7 @@ package tools.mdsd.devops
 import com.griddynamics.devops.mpl.Helper
 import com.griddynamics.devops.mpl.MPLManager
 
+
 @Singleton
 class ConfigurationManager implements Serializable {
     private Map configurationExtensions = [:]
