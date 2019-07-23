@@ -4,8 +4,9 @@
  * Relies on concrete Pipeline to provide agent configuration
  */
 def call(body, defaults  = [:], overrides = [:]) {
-  def cfgId = extendConfiguration([
+  extendConfiguration([
     skipDeploy: "$BRANCH_NAME" != 'master',
+    skipNotification: "$BRANCH_NAME" != 'master',
     deploySubDir: "$BRANCH_NAME" == 'master' ? 'nightly': "branches/$BRANCH_NAME",
     deployProjectDir: scm.userRemoteConfigs[0].url.replaceFirst(/^.*\/([^\/]+?).git$/, '$1').toLowerCase()
   ] + defaults, [    
@@ -25,11 +26,17 @@ def call(body, defaults  = [:], overrides = [:]) {
       echo "Stage $it will be skipped."
     }
   }
-  extendConfiguration([modules: moduleConfig])
+  
+  extendConfiguration([
+    modules: moduleConfig,
+    notificationDefaultRecipient: decodeEmailAddress(config.notificationDefaultRecipient)
+  ])
+
+  config = updateConfiguration()
 
   pipeline {
     agent {
-      label 'docker'
+      label config.agent_label
     }
 
     parameters {
@@ -84,12 +91,22 @@ def call(body, defaults  = [:], overrides = [:]) {
           MPLModule()
         }
       }
-      stage( 'Cleanup' ) {
-        when { expression { MPLModuleEnabled() } }
-        steps {
-          MPLModule()
+      post {
+        always {
+          emailNotification(config.notificationDefaultRecipient, config.skipNotification)
+        }
+        cleanup {
+          script {
+            if (MPLModuleEnabled('Cleanup')) {
+              MPLModule ('Cleanup')
+            }
+          }
         }
       }
     }
   }
 }  
+
+def decodeEmailAddress(configParameter) {
+	return configParameter.contains('@') ? configParameter : new String(configParameter.decodeBase64())
+}

@@ -3,5 +3,14 @@ configFileProvider(
     extendConfiguration([
         mavenSettingsFile: MAVEN_SETTINGS,
         emptySlaveDir: "/tmp/${env.BUILD_TAG}"])
+
+    CFG = updateConfiguration()
+
+    MPLModulePostStep {
+        sh "rm -rf ${CFG.emptySlaveDir}"
+    }
+
+    sh "mkdir -p ${CFG.emptySlaveDir}"
+
     MPLModule("Build")
 }

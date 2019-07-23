@@ -1,1 +1,0 @@
-sh "rm -rf ${CFG.emptySlaveDir}"

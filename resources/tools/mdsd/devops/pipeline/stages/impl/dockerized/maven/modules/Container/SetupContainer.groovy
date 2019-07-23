@@ -9,6 +9,4 @@ extendConfiguration([
     -e MAVEN_OPTS=-Duser.home=/tmp \
     """])
 
-sh "mkdir -p ${CFG.emptySlaveDir}"
-
 MPLModule('Setup Container')
