@@ -7,7 +7,7 @@ def call(body) {
     MPLModulesPath('tools/mdsd/devops/pipeline/stages/impl/dockerized/initialize')
 
     AbstractMDSDToolsPipeline(body, [
-        agent_label: 'docker'
+        agent_label: 'docker',
         mavenContainerVersion: '3-jdk-11',
         buildLimitTime: 30,
         buildLimitRAM: '4G',
