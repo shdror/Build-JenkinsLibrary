@@ -10,6 +10,8 @@ def call(body) {
         mavenContainerVersion: '3-jdk-11',
         buildLimitTime: 30,
         buildLimitRAM: '4G',
-        buildLimitHDD: '20G'
+        buildLimitHDD: '20G',
+        deployRootDir: '/home/deploy/html'
+        deploySSHName: 'web'
     ])
 }

@@ -6,7 +6,13 @@
 def call(body, defaults  = [:], overrides = [:]) {
   def cfgId = extendConfiguration([
     skipDeploy: "$BRANCH_NAME" != 'master'
-  ] + defaults, overrides, body) 
+    deploySubDir: "$BRANCH_NAME" == 'master' ? 'nightly': "branches/$BRANCH_NAME"
+    deployProjectDir: env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1').toLowerCase()
+  ] + defaults, [    
+    deployRelease: param.Release
+    deployReleaseVersion: param.ReleaseVersion
+  ] + overrides, body) 
+  
   def config = updateConfiguration()
   
   def modules = ['Prepare', 'Checkout', 'Build', 'Archive', 'Quality Metrics', 'Deploy', 'Cleanup']
