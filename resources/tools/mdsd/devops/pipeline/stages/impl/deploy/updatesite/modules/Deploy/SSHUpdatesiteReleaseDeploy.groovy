@@ -9,7 +9,7 @@ configFileProvider(
             failOnError: true,
             publishers: [
                 sshPublisherDesc(
-                    configName: CFG.deploySSHName,
+                    configName: CFG.deployUpdatesiteSshName,
                     transfers: [
                         sshTransfer(
                             sourceFiles: "$SCRIPTNAME",
@@ -18,7 +18,7 @@ configFileProvider(
                     ]
                 ),
                 sshPublisherDesc(
-                    configName: CFG.deploySSHName,
+                    configName: CFG.deployUpdatesiteSshName,
                     transfers: [
                         sshTransfer(
                             execCommand:
