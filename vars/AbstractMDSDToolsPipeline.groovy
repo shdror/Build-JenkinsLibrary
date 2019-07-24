@@ -24,7 +24,7 @@ def call(body, defaults  = [:], overrides = [:]) {
   
   extendConfiguration([
     modules: moduleConfig,
-    notificationDefaultRecipient: decodeEmailAddress(config.notifyDefault)
+    notifyDefault: decodeEmailAddress(config.notifyDefault)
   ])
 
   config = updateConfiguration()
