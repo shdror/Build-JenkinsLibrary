@@ -26,8 +26,13 @@ class MDSDToolsDSL implements Serializable {
                     def deploymentName = "deploy${deploymentCounter++}"
                     configs << ["${deploymentName}Module": name[6..-1].toLowerCase()]
                     configs += config.collectEntries { ["${deploymentName}${it.key.capitalize()}", it.value]}
-                    if (config.artifactsDir && !(configs.archiveArtifactsDir)) {
-                        configs.archiveArtifactsDir = config.artifactsDir
+                    if (config.artifactsDir) {
+                        if (!configs.archiveArtifactsDir) {
+                            configs.archiveArtifactsDir = config.artifactsDir
+                        }
+                        if (!configs.javadocArtifactsDir) {
+                            configs.javadocArtifactsDir = "${config.artifactsDir}/javadoc"
+                        }
                     }
                     deploymentModules << name[6..-1].toLowerCase()
                 } else if (name.startsWith("buildWith")) {

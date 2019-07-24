@@ -6,9 +6,9 @@ sshPublisher(
             configName: CFG.deployUpdatesiteSshName,
             transfers: [
                 sshTransfer(
-                    sourceFiles: "${CFG.relativeArtifactsDir}/**/*",
+                    sourceFiles: "${CFG.deployUpdatesiteArtifactsDir}/**/*",
                     cleanRemote: true,
-                    removePrefix: "${CFG.relativeArtifactsDir}",
+                    removePrefix: "${CFG.deployUpdatesiteArtifactsDir}",
                     remoteDirectory: "${CFG.deployUpdatesiteProjectDir}/${CFG.deployUpdatesiteSubDir}"
                 )
             ]
