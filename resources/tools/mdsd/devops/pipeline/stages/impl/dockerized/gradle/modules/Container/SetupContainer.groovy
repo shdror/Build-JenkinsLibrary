@@ -5,7 +5,7 @@ extendConfiguration([
     dockerBuildImage: "gradle:${gradleVersion}-jdk${gradleJdkVersion}",
     dockerWithRunParameters: """\
     ${CFG.dockerWithRunParameters ?: ""} \
-    -v ${CFG.slaveHome}/.gradle:/.gradle:ro
+    -v ${CFG.slaveHome}/.gradle:/.gradle:ro \
     """])
 
 MPLModule('Setup Container')
