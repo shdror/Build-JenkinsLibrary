@@ -11,5 +11,5 @@ def call(body) {
     
     echo "Pipeline configuration: ${dsl.configs.toMapString()}"
 
-    AbstractMDSDToolsPipeline({}, dsl.configs)
+    AbstractMDSDToolsPipeline(dsl.configs)
 }

@@ -7,7 +7,7 @@ def call(body, defaults  = [:], overrides = [:]) {
   extendConfiguration(defaults, [    
     deployRelease: params.Release,
     deployReleaseVersion: params.ReleaseVersion
-  ] + overrides, body) 
+  ] + overrides) 
 
   def config = updateConfiguration()
   

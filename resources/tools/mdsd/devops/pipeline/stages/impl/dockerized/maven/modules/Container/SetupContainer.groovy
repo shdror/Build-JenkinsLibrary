@@ -1,5 +1,8 @@
+def mavenVersion = CFG.mavenVersion ?: '3'
+def mavenJdkVersion = CFG.mavenJdkVersion ?: '11'
+
 extendConfiguration([
-    dockerBuildImage: "maven:${CFG.mavenVersion}-jdk-${CFG.mavenJdkVersion}",
+    dockerBuildImage: "maven:${mavenVersion}-jdk-${mavenJdkVersion}",
     dockerWithRunParameters: """\
     ${CFG.dockerWithRunParameters ?: ""} \
     -v ${CFG.slaveHome}/.m2:/.m2:ro \
