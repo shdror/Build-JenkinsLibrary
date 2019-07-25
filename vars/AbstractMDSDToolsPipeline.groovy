@@ -3,7 +3,7 @@
  * Defines pipeline stages of MDSD.tools Build process
  * Relies on concrete Pipeline to provide agent configuration
  */
-def call(body, defaults  = [:], overrides = [:]) {
+def call(defaults  = [:], overrides = [:]) {
   extendConfiguration(defaults, [    
     deployRelease: params.Release,
     deployReleaseVersion: params.ReleaseVersion
