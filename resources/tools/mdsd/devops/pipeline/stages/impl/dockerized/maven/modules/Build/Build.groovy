@@ -4,7 +4,7 @@ configFileProvider(
         mavenSettingsFile: MAVEN_SETTINGS,
         emptySlaveDir: "/tmp/${env.BUILD_TAG}"])
 
-    CFG = updateConfiguration()
+    CFG = getCurrentConfiguration()
 
     MPLModulePostStep {
         sh "rm -rf ${CFG.emptySlaveDir}"

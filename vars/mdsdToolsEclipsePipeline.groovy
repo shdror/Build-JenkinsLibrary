@@ -3,7 +3,7 @@
 def legacyConfig = [:]
 
 def call(body) {
-	echo 'This is a legancy pipeline command. Adapt to "MDSDToolsPipeline".'
+	echo 'This is a legacy pipeline command. Adapt to "MDSDToolsPipeline".'
 
 	if (body instanceof Closure) {
 		body.delegate = this.legacyConfig

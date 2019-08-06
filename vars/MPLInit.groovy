@@ -15,6 +15,9 @@ def call(usingDocker = true, buildTool = "Maven", deployment = ['updatesite'], c
 
     if (constraintBuild) {
         MPLModulesPath('tools/mdsd/devops/pipeline/stages/impl/constraintBuild')
+        if (usingDocker) {
+            MPLModulesPath('tools/mdsd/devops/pipeline/stages/impl/dockerized/constraintBuild')
+        }
     }
 
     deployment.each {

@@ -11,7 +11,7 @@ while (CFG."deploy${deploymentCounter}Module") {
         ]}
     )
 
-    CFG = updateConfiguration()
+    CFG = getCurrentConfiguration()
     echo CFG.toMapString()
 
     MPLModule("${deployModuleName.capitalize()} Deploy")

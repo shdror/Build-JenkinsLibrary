@@ -9,7 +9,7 @@ def call(defaults  = [:], overrides = [:]) {
     deployReleaseVersion: params.ReleaseVersion
   ] + overrides) 
 
-  def config = updateConfiguration()
+  def config = getCurrentConfiguration()
   
   def modules = ['Prepare', 'Checkout', 'Build', 'Archive', 'Quality Metrics', 'Deploy', 'Cleanup']
   def moduleConfig = [:]
@@ -27,7 +27,7 @@ def call(defaults  = [:], overrides = [:]) {
     notifyDefault: decodeEmailAddress(config.notifyDefault)
   ])
 
-  config = updateConfiguration()
+  config = getCurrentConfiguration()
 
   pipeline {
     agent {
