@@ -1,13 +1,32 @@
-def call(body) {
-	
-	final MAIL_DEFAULT_RECIPIENT = new String('bWRzZC10b29scy1idWlsZEBpcmEudWthLmRl'.decodeBase64())
-	final BUILD_IMAGE = 'maven:3-jdk-11'
-	final BUILD_LIMIT_TIME = 30
-	final BUILD_LIMIT_RAM = '4G'
-	final BUILD_LIMIT_HDD = '20G'
-	final SSH_NAME = 'web'
-	final WEB_ROOT = '/home/deploy/html'
-	
-	slaveEclipsePipeline(body, SSH_NAME, WEB_ROOT, MAIL_DEFAULT_RECIPIENT, BUILD_IMAGE, BUILD_LIMIT_TIME, BUILD_LIMIT_RAM, BUILD_LIMIT_HDD)
 
+@groovy.transform.Field
+def legacyConfig = [:]
+
+def call(body) {
+	echo 'This is a legacy pipeline command. Adapt to "MDSDToolsPipeline".'
+
+	if (body instanceof Closure) {
+		body.delegate = this.legacyConfig
+		body.resolveStrategy = Closure.DELEGATE_FIRST
+		body() 
+	}
+
+	MDSDToolsPipeline {
+		skipQualityMetrics (this.legacyConfig.skipCodeQuality == null ? false : this.legacyConfig.skipCodeQuality)
+		skipNotification (this.legacyConfig.skipNotification == null ? false : this.legacyConfig.skipNotification)
+		skipCleanup (this.legacyConfig.skipCleanup == null ? false : this.legacyConfig.skipCleanup)
+		
+		if (this.legacyConfig.updateSiteLocation) {
+			deployUpdatesite this.legacyConfig.updateSiteLocation
+		}
+
+		if (this.legacyConfig.webserverDir) {
+			deployUpdatesiteProjectDir = this.legacyConfig.webserverDir
+		}
+
+		if (this.legacyConfig.defaultRecipient) {
+			notifyDefault this.legacyConfig.defaultRecipient
+		}
+
+	}
 }

@@ -1,0 +1,1 @@
+archiveArtifacts "${CFG.archiveArtifactsDir}/**/*"
