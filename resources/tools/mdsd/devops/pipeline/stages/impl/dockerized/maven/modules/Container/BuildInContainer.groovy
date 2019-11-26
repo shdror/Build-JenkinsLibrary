@@ -1,6 +1,10 @@
 def mavenGoal = "clean verify"
 if (CFG.mavenGoal) {
-	mavenGoal = CFG.mavenGoal
+    mavenGoal = CFG.mavenGoal
+}
+
+if (CFG.deployRelease) {
+    mavenGoal = "-Drelease ${mavenGoal}"
 }
 
 lock("m2-cache-${CFG.slaveName}") {
